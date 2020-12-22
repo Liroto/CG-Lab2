@@ -74,32 +74,45 @@ namespace CG_lab2._0
 
         private void inchesButton_Click(object sender, EventArgs e)
         {
-            pic.BackColor = Color.FromArgb(200, 200, 200);
-            pic.Refresh();
+            
             g.PageUnit = GraphicsUnit.Inch;
             Pen axesPen = new Pen(Color.Red, 0.05f);
             Pen graphicsPen = new Pen(Color.FromArgb(0, 0, 200), 0.05f);
+            pic.BackColor = Color.FromArgb(200, 200, 200);
+            pic.Refresh();
             float WidthInInches = (pic.Size.Width - 1) / g.DpiX;
             float HeightInInches = (pic.Size.Height - 1) / g.DpiY;
             g.DrawRectangle(axesPen, 0, 0, WidthInInches, HeightInInches);
             g.DrawLine(axesPen, 0, HeightInInches / 2, WidthInInches, HeightInInches / 2);
             g.DrawLine(axesPen, WidthInInches / 2, 0, WidthInInches / 2, HeightInInches);
 
+            
+            //Ума не приложу,почему график в дюймах так криво отображается.
 
-            //Ума не приложу,почему график в дюймах не отображается...
 
+            float ey = 0, ex = 0, oldEx = 0, oldEy = 0;
+            float current_x = -40, current_y = 0,step = Convert.ToSingle(WidthInInches / 2);
 
-            float ex = 0, oldEx = 0, ey = 0, oldEy = 0;
-            float current_x = Convert.ToSingle(Math.PI * 2), current_y = 0, step = Convert.ToSingle(WidthInInches / 2);
+            //while (ex <= WidthInInches + step)
+            //{
+            //    current_y = Convert.ToSingle(-6 * Math.Pow(current_x, 2)) + 3 * current_x;
+            //    ey = Convert.ToSingle(-current_y) + HeightInInches / 2;
+            //    if (ex != 0) { g.DrawLine(graphicsPen, oldEx, oldEy, ex, ey); }
+            //    oldEx = ex;
+            //    oldEy = ey;
+            //    ex = ex + step;
+            //    current_x = current_x + Convert.ToSingle(Math.PI * 4) / step;
+            //}
 
-            while (ex <= WidthInInches + step)
+            while (current_x <= 50)
             {
-                current_y = -6 * Convert.ToSingle(Math.Pow(current_x, 2)) + 3 * current_x;
-                ey = Convert.ToSingle(-current_y) + HeightInInches / 2;
-                if (ex != 0) { g.DrawLine(graphicsPen, oldEx, oldEy, ex, ey); }
-                oldEx = ex; oldEy = ey;
-                ex = ex + step;
-                current_x = current_x + Convert.ToSingle(Math.PI * 4) / step;
+                current_y = (Convert.ToSingle(-3 * Math.Pow(current_x, 2) + 3 * current_x)) * -4 + -350;
+                g.DrawLine(graphicsPen, oldEx, oldEy, current_x, current_y);
+
+                oldEx = current_x;
+                oldEy = current_y;
+
+                current_x += 0.1f;
             }
         }
 
